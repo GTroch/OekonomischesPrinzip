@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Das Ökonomische Prinzip — Klug handeln bei Knappheit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#0d1220; --bg-alt:#111830; --surface:#171f38; --surface-alt:#1c2542;
+    --ink:#eef1fb; --ink-2:#b9c2e0; --ink-mute:#8790b3;
+    --accent:#33d6a6; --accent-strong:#7af0c9; --accent-soft:#123b32;
+    --amber:#ffb648; --amber-soft:#3a2a12;
+    --danger:#ff6b6b; --danger-soft:#3a1620;
+    --border:#2a3358; --border-strong:#3a4470;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+    --pro:#4d9bff; --pro-soft:#12233f;
+    --contra:#ff9f4d; --contra-soft:#3a260f;
+    font-family: "Inter", system-ui, sans-serif;
+  }
+  :root[data-theme="light"]{
+    color-scheme: light;
+    --bg:#f5f3ec; --bg-alt:#eceadf; --surface:#ffffff; --surface-alt:#f1efe6;
+    --ink:#191c2b; --ink-2:#4a4f6b; --ink-mute:#7d8199;
+    --accent:#0f9d76; --accent-strong:#0c7a5c; --accent-soft:#e0f5ee;
+    --amber:#b5750a; --amber-soft:#fbf0da;
+    --danger:#c9403f; --danger-soft:#fbe6e5;
+    --border:#e0ddd0; --border-strong:#c8c4b3;
+    --shadow:0 1px 2px rgba(20,20,10,.06), 0 8px 24px rgba(20,20,10,.06);
+    --pro:#1f5fb5; --pro-soft:#e7f0fc;
+    --contra:#b5620a; --contra-soft:#fbeede;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      color-scheme: light;
+      --bg:#f5f3ec; --bg-alt:#eceadf; --surface:#ffffff; --surface-alt:#f1efe6;
+      --ink:#191c2b; --ink-2:#4a4f6b; --ink-mute:#7d8199;
+      --accent:#0f9d76; --accent-strong:#0c7a5c; --accent-soft:#e0f5ee;
+      --amber:#b5750a; --amber-soft:#fbf0da;
+      --danger:#c9403f; --danger-soft:#fbe6e5;
+      --border:#e0ddd0; --border-strong:#c8c4b3;
+      --shadow:0 1px 2px rgba(20,20,10,.06), 0 8px 24px rgba(20,20,10,.06);
+      --pro:#1f5fb5; --pro-soft:#e7f0fc;
+      --contra:#b5620a; --contra-soft:#fbeede;
+    }
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0; padding:0;}
+  body{ background:var(--bg); color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:700; margin:0 0 8px; line-height:1.18; color:var(--ink); }
+  p{margin:0 0 10px; line-height:1.6; color:var(--ink-2);}
+  .wrap{ max-width:680px; margin:0 auto; padding:0 18px 60px; }
+  section{ scroll-margin-top:66px; }
+
+  .topbar{ position:sticky; top:0; z-index:30; background:var(--bg); border-bottom:1px solid var(--border); }
+  .topbar-in{ max-width:680px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .brand{ font-weight:800; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent-strong); display:flex; align-items:center; gap:7px; white-space:nowrap; }
+  .info-btn{ background:var(--surface-alt); color:var(--ink-2); border:1px solid var(--border); border-radius:999px; padding:6px 13px; font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit; white-space:nowrap;}
+  .navrow{ display:flex; gap:6px; overflow-x:auto; padding:0 18px 10px; max-width:680px; margin:0 auto; scrollbar-width:none; }
+  .navrow::-webkit-scrollbar{ display:none; }
+  .navlink{ flex-shrink:0; font-size:12.5px; font-weight:600; padding:7px 12px; border-radius:999px; background:var(--surface-alt); color:var(--ink-2); text-decoration:none; border:1px solid var(--border); }
+  .navlink.active{ background:var(--accent-soft); color:var(--accent-strong); border-color:var(--accent); }
+
+  .info-panel{ background:var(--surface-alt); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:12px 18px 0; font-size:13px; color:var(--ink-2); max-width:680px; }
+  .info-panel h3{ font-size:14px; margin-bottom:8px; color:var(--ink); }
+  .info-panel ul{ margin:0; padding-left:18px; }
+  .info-panel li{ margin-bottom:6px; }
+
+  .hero{ text-align:center; padding:34px 4px 10px; }
+  .hero .kicker{ font-size:12.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; }
+  .hero h1{ font-size:29px; }
+  .hero-art{ width:100%; max-width:220px; height:140px; margin:6px auto 10px; }
+  .hero-art svg{ display:block; }
+  .hook{ font-size:16px; color:var(--ink); font-style:italic; }
+
+  .btn{ font-family:inherit; font-size:15px; font-weight:700; border-radius:12px; padding:13px 20px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; text-decoration:none; display:inline-block; }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn.primary{ background:var(--accent); border-color:var(--accent); color:#04201a; }
+  .btn.big{ width:100%; text-align:center; padding:15px 20px; font-size:15.5px; }
+  .btn.primary:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; box-shadow:var(--shadow); margin-bottom:14px; }
+  .section-head{ margin:40px 0 14px; }
+  .section-head .num{ font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--amber); margin-bottom:4px; }
+  .section-head h2{ font-size:22px; }
+
+  .icon-sm{ width:34px; height:34px; border-radius:10px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .icon-sm svg{ width:19px; height:19px; stroke:var(--accent-strong); fill:none; }
+
+  .praemisse-grid{ display:flex; flex-direction:column; gap:10px; }
+  .praemisse{ display:flex; gap:12px; align-items:flex-start; background:var(--surface-alt); border-radius:12px; padding:13px 14px; }
+  .praemisse .txt b{ display:block; font-size:14.5px; color:var(--ink); margin-bottom:3px; }
+  .praemisse .txt p{ margin:0 0 4px; font-size:13.5px; }
+  .praemisse .txt .tag{ display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--accent-strong); background:var(--accent-soft); padding:2px 8px; border-radius:999px; margin-top:3px; }
+
+  .model-note{ background:var(--amber-soft); border-left:3px solid var(--amber); border-radius:10px; padding:12px 14px; font-size:13.5px; color:var(--ink); margin:14px 0; }
+
+  .check-card{ margin-bottom:10px; }
+  .check-q{ font-size:14.5px; color:var(--ink); font-weight:600; margin-bottom:10px; }
+  .check-opt{ display:block; width:100%; text-align:left; font-family:inherit; font-size:13.5px; padding:11px 14px; border-radius:10px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; margin-bottom:7px; line-height:1.4; }
+  .check-opt.chosen{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent-strong); }
+  .check-opt:disabled{ cursor:default; }
+  .check-result{ text-align:center; padding:6px 0; }
+  .check-result .big-num{ font-family:"Fraunces",serif; font-weight:700; font-size:40px; color:var(--accent-strong); }
+
+  .scenario-box{ background:var(--surface-alt); border-radius:12px; padding:14px 16px; margin:14px 0; border-left:3px solid var(--accent); }
+  .scenario-box p{ margin:0; color:var(--ink); font-size:14.5px; }
+  .slider-block{ margin:18px 0; }
+  .slider-val{ text-align:center; font-family:"Fraunces",serif; font-size:32px; font-weight:700; color:var(--accent-strong); margin-bottom:6px; }
+  input[type="range"]{ width:100%; accent-color:var(--accent); height:6px; }
+  .slider-labels{ display:flex; justify-content:space-between; font-size:12px; color:var(--ink-mute); margin-top:4px; }
+  .feedback-box{ border-radius:12px; padding:14px 16px; margin:14px 0; font-size:14px; line-height:1.5; }
+  .feedback-box.good{ background:var(--accent-soft); color:var(--ink); border:1px solid var(--accent); }
+  .feedback-box.bad{ background:var(--danger-soft); color:var(--ink); border:1px solid var(--danger); }
+  .feedback-box.neutral{ background:var(--surface-alt); color:var(--ink); border:1px solid var(--border-strong); }
+  .quiz-opt{ display:block; width:100%; text-align:left; font-family:inherit; font-size:14px; padding:13px 15px; border-radius:12px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; margin-bottom:9px; line-height:1.4; }
+  .quiz-opt.correct{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent-strong); }
+  .quiz-opt.wrong{ border-color:var(--danger); background:var(--danger-soft); color:var(--danger); }
+  .quiz-opt:disabled{ cursor:default; }
+
+  .glossary-item{ border-bottom:1px solid var(--border); padding:12px 0; }
+  .glossary-item:last-child{ border-bottom:none; }
+  .glossary-item .term{ font-weight:700; color:var(--ink); font-size:14.5px; margin-bottom:3px; }
+  .glossary-item .def{ font-size:13.5px; color:var(--ink-2); }
+
+  /* --- Tension diagram (Knappheit) --- */
+  .tension{ display:flex; align-items:center; gap:10px; margin:16px 0; }
+  .tension .box{ flex:1; text-align:center; background:var(--surface-alt); border-radius:12px; padding:14px 10px; font-size:13px; font-weight:700; color:var(--ink); border:1px solid var(--border-strong); }
+  .tension .box.a{ border-color:var(--pro); color:var(--pro); }
+  .tension .box.b{ border-color:var(--contra); color:var(--contra); }
+  .tension .arrow{ font-size:20px; color:var(--ink-mute); flex-shrink:0; }
+  .tension-note{ text-align:center; font-size:13px; font-weight:700; color:var(--amber); margin:4px 0 14px; }
+
+  /* --- Price table (Einstieg) --- */
+  .price-table{ width:100%; border-collapse:collapse; font-size:13px; margin:12px 0; }
+  .price-table th{ text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-mute); padding:6px 8px; border-bottom:1px solid var(--border-strong); }
+  .price-table td{ padding:9px 8px; border-bottom:1px solid var(--border); color:var(--ink); }
+  .price-table tr.best td{ background:var(--accent-soft); font-weight:700; color:var(--accent-strong); }
+  .price-table .perkg{ font-variant-numeric:tabular-nums; }
+  .reveal-btn{ font-family:inherit; font-size:12.5px; font-weight:700; padding:5px 11px; border-radius:8px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink-2); cursor:pointer; }
+
+  /* --- Classification cards (Praxis) --- */
+  .score-pill{ display:inline-block; font-size:12.5px; font-weight:800; color:var(--accent-strong); background:var(--accent-soft); border-radius:999px; padding:4px 12px; margin-bottom:14px; }
+  .sach-card{ margin-bottom:10px; }
+  .sach-txt{ font-size:14px; color:var(--ink); margin-bottom:10px; }
+  .sach-btns{ display:flex; gap:8px; }
+  .sach-btn{ flex:1; font-family:inherit; font-size:13px; font-weight:700; padding:10px 8px; border-radius:10px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; }
+  .sach-btn.correct{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent-strong); }
+  .sach-btn.wrong{ background:var(--danger-soft); border-color:var(--danger); color:var(--danger); }
+  .sach-btn:disabled{ cursor:default; opacity:.9; }
+  .sach-expl{ font-size:12.5px; color:var(--ink-2); margin-top:9px; padding-top:9px; border-top:1px solid var(--border); }
+
+  /* --- Needs sort (Knappheit) --- */
+  .need-card{ margin-bottom:9px; }
+  .need-txt{ font-size:14px; color:var(--ink); margin-bottom:9px; font-weight:600; }
+  .need-btns{ display:flex; gap:6px; flex-wrap:wrap; }
+  .need-btn{ flex:1; min-width:86px; font-family:inherit; font-size:12px; font-weight:700; padding:8px 6px; border-radius:9px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; }
+  .need-btn.correct{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent-strong); }
+  .need-btn.wrong{ background:var(--danger-soft); border-color:var(--danger); color:var(--danger); }
+  .need-btn:disabled{ cursor:default; }
+
+  /* --- Ice cream variants --- */
+  .ice-card{ display:block; width:100%; text-align:left; font-family:inherit; background:var(--surface-alt); border:1px solid var(--border-strong); border-radius:12px; padding:12px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink); font-size:13.5px; }
+  .ice-card b{ display:block; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-mute); margin-bottom:3px; font-weight:800; }
+  .ice-card.sel{ border-color:var(--accent); background:var(--accent-soft); }
+  .ice-card.correct{ border-color:var(--accent); background:var(--accent-soft); }
+  .ice-card.correct b{ color:var(--accent-strong); }
+
+  /* --- Dual utility sliders (Opportunitätskosten) --- */
+  .util-cols{ display:flex; gap:12px; }
+  .util-col{ flex:1; }
+  .util-col h4{ font-size:13.5px; margin:0 0 10px; color:var(--ink); text-align:center; }
+  .util-row{ margin-bottom:14px; }
+  .util-row .lbl{ font-size:12px; color:var(--ink-2); margin-bottom:4px; display:block; }
+  .util-row input[type=range]{ height:5px; }
+  .util-row .val{ text-align:center; font-size:12.5px; font-weight:700; color:var(--accent-strong); }
+  .util-sum{ text-align:center; margin-top:10px; padding-top:12px; border-top:1px solid var(--border); }
+  .util-sum .n{ font-family:"Fraunces",serif; font-size:26px; font-weight:700; color:var(--ink); }
+  textarea.noteArea{ width:100%; min-height:100px; font-family:inherit; font-size:13.5px; padding:12px 14px; border-radius:12px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); resize:vertical; }
+  .save-hint{ font-size:12px; color:var(--ink-mute); margin-top:6px; min-height:14px; }
+
+  /* --- Lückentext --- */
+  .luecke-text{ font-size:14.5px; line-height:2.1; color:var(--ink); }
+  .luecke-text select{ font-family:inherit; font-size:13px; font-weight:700; color:var(--accent-strong); background:var(--accent-soft); border:1px solid var(--accent); border-radius:8px; padding:3px 6px; margin:0 2px; }
+  .luecke-text select.wrong{ color:var(--danger); background:var(--danger-soft); border-color:var(--danger); }
+  .luecke-text select.correct{ color:var(--accent-strong); }
+
+  .final-score{ text-align:center; padding:10px 0; }
+  .final-score .n{ font-family:"Fraunces",serif; font-weight:700; font-size:44px; color:var(--accent-strong); }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width:420px){
+    .wrap{ padding:0 12px 50px; }
+    .hero h1{ font-size:23px; }
+    .card{ padding:15px; }
+    .util-cols{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">⚖️ Ökonomisches Prinzip</div>
+    <button class="info-btn" id="infoBtn">ℹ️ Für Lehrkräfte</button>
+  </div>
+  <div class="navrow" id="navrow"></div>
+</div>
+<div id="infoPanelHolder"></div>
+
+<div class="wrap" id="stage"></div>
+
+<script>
+(function(){
+  var stage = document.getElementById("stage");
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  var NAV = [
+    {id:"einstieg", label:"Einstieg"},
+    {id:"knappheit", label:"Knappheit"},
+    {id:"prinzip", label:"Das Prinzip"},
+    {id:"praxis", label:"In der Praxis"},
+    {id:"kosten", label:"Verzichtskosten"},
+    {id:"test", label:"Abschlusstest"},
+    {id:"glossar", label:"Glossar"}
+  ];
+
+  // ============ CONTENT DATA ============
+  var PRICES = [
+    {name:"Waschmittel A", desc:"Markenpulver", kg:1.5, preis:10.20},
+    {name:"Waschmittel B", desc:"Großpackung", kg:9, preis:9.20},
+    {name:"Waschmittel C", desc:"Kompaktpack", kg:1, preis:3.80},
+    {name:"Waschmittel D", desc:"Sparbox", kg:1.2, preis:3.60}
+  ];
+
+  var NEEDS = [
+    {txt:"Ein Glas Trinkwasser", cat:0},
+    {txt:"Ein spannendes Buch lesen", cat:1},
+    {txt:"Das neueste Smartphone-Modell", cat:2},
+    {txt:"Eine warme Mahlzeit", cat:0},
+    {txt:"Ein Konzertbesuch mit Freunden", cat:1},
+    {txt:"Eine Designer-Sonnenbrille", cat:2}
+  ];
+  var NEED_CATS = ["Grundbedürfnis","Kulturbedürfnis","Luxusbedürfnis"];
+
+  var SACHVERHALTE = [
+    {txt:"Für deinen Urlaub stehen dir 200 € zur Verfügung — du willst damit so viel Erholung wie möglich herausholen.", ans:1, expl:"Das Budget (200 €) ist fest vorgegeben — gesucht ist das bestmögliche Ergebnis damit: Maximalprinzip."},
+    {txt:"Eine Unternehmerin plant 10 000 € Werbeausgaben und will damit den Umsatz verdoppeln.", ans:1, expl:"Mit einem festen Werbebudget soll ein möglichst großer Effekt erzielt werden: Maximalprinzip."},
+    {txt:"Ein Handwerker geht besonders sorgfältig und schonend mit seinen Maschinen um.", ans:0, expl:"Das Ziel (funktionsfähige Maschinen) soll mit möglichst wenig Verschleiß/Aufwand erreicht werden: Minimalprinzip."},
+    {txt:"Ein Fuhrunternehmer sucht die kürzeste Strecke zu seinem Ziel.", ans:0, expl:"Ein festes Ziel (der Zielort) soll mit minimalem Aufwand (Strecke, Sprit) erreicht werden: Minimalprinzip."},
+    {txt:"Eine Autofahrerin will mit einer vollen Tankfüllung möglichst weit kommen.", ans:1, expl:"Die Tankfüllung ist fest vorgegeben, gesucht ist die maximale Reichweite: Maximalprinzip."},
+    {txt:"Ein Kaufmann will seine Ware zum höchstmöglichen Preis verkaufen.", ans:1, expl:"Mit der gegebenen Warenmenge soll der größtmögliche Erlös erzielt werden: Maximalprinzip."},
+    {txt:"Du hast 1000 € gespart und willst sie möglichst gewinnbringend anlegen.", ans:1, expl:"Das Kapital ist fest (1000 €), gesucht ist der maximale Ertrag: Maximalprinzip."},
+    {txt:"Bei der Fertigung von 1000 Werkzeugen soll möglichst wenig Material verbraucht werden.", ans:0, expl:"Das Ziel (1000 Werkzeuge) ist fest, der Materialeinsatz soll minimiert werden: Minimalprinzip."},
+    {txt:"Ein Hersteller streicht aus Kostengründen die Qualitätsprüfung seiner Produkte.", ans:0, expl:"Ein bestimmtes Ziel soll mit geringerem Mitteleinsatz (weniger Kosten) erreicht werden: Minimalprinzip."},
+    {txt:"Ein Unternehmer legt zur Gewinnsteigerung wartungsintensive, alte Anlagen still.", ans:0, expl:"Durch Einsparung von Kosten (Wartung) soll das Ergebnis mit weniger Mitteleinsatz erreicht werden: Minimalprinzip."}
+  ];
+
+  var ICE = [
+    {key:"A", label:"Variante A — Eisdiele", txt:"Ihr geht in die Eisdiele; jede*r bekommt einen Becher mit zwei Kugeln.", good:false},
+    {key:"B", label:"Variante B — Großpackung", txt:"Im Supermarkt zwei 1-Liter-Packungen Eis plus Sahne und Streusel kaufen — riesige selbstgemachte Becher auf dem Balkon.", good:true},
+    {key:"C", label:"Variante C — Kleine Schwester", txt:"Ihr nehmt die kleine Schwester mit, die auch zwei Kugeln möchte — das Geld reicht dann nur knapp für alle drei.", good:false},
+    {key:"D", label:"Variante D — Eismaschine leihen", txt:"Ihr leiht euch kostenlos die Eismaschine vom Nachbarn und kauft günstige Zutaten — am Ende bleibt sogar Geld übrig.", good:true}
+  ];
+
+  var UTIL_LEFT = { title:"Option 1: Lernen", items:["Bessere Note in der Mathearbeit","Zeit drinnen am Schreibtisch verbringen","Deine Freundin ist enttäuscht, dass du nicht mitkommst"] };
+  var UTIL_RIGHT = { title:"Option 2: Schwimmbad", items:["Spaß und Erholung mit deiner Freundin","Risiko einer schlechteren Note in der Arbeit","Frische Luft, Sonne und Bewegung"] };
+
+  var LUECKE_WORDS = ["Bedürfnisse","Knappheit","Ressourcen","Opportunitätskosten","Konkurrenz","Güter","wirtschaften","Maximalprinzip","ökonomische Prinzip"];
+  var LUECKE_PARTS = [
+    "Deine Klasse plant eine Abschlussfahrt. Jede und jeder hat unterschiedliche ",
+    0,
+    ": manche wollen Action, andere Entspannung, wieder andere vor allem Freunde treffen. Das Budget der Klassenkasse ist jedoch begrenzt — ein klarer Fall von ",
+    1,
+    ". Die ",
+    2,
+    ", die euch zur Verfügung stehen — Geld und Zeit — reichen nicht für jeden Wunsch. Entscheidet ihr euch für ein teureres Hotel, verzichtet ihr auf ein ausgiebigeres Freizeitprogramm; diesen entgangenen Nutzen nennt man ",
+    3,
+    ". Weil mehrere Klassen um die wenigen günstigen Unterkünfte am Zielort buhlen, entsteht zusätzlich ",
+    4,
+    " um diese ",
+    5,
+    ". Damit die Klassenkasse am Ende reicht, müsst ihr ",
+    6,
+    " — also bewusst mit den vorhandenen Mitteln umgehen. Wählt ihr bei festem Budget das Programm mit dem größten Erlebniswert, handelt ihr nach dem ",
+    7,
+    ". Allgemein nennt man dieses Vorgehen, die eigenen Mittel bestmöglich einzusetzen, das ",
+    8,
+    "."
+  ];
+  var LUECKE_ANS = ["Bedürfnisse","Knappheit","Ressourcen","Opportunitätskosten","Konkurrenz","Güter","wirtschaften","Maximalprinzip","ökonomische Prinzip"];
+
+  var QUIZ = [
+    {q:"Du hast ein festes Werbebudget und willst damit möglichst viele neue Kundinnen und Kunden gewinnen. Welches Prinzip wendest du an?", opts:["Minimalprinzip","Maximalprinzip","Beides gleichzeitig","Keines von beiden"], ans:1, expl:"Das Budget ist fest, das Ergebnis soll maximiert werden — das ist das Maximalprinzip."},
+    {q:"Welche Aussage beschreibt das Minimalprinzip korrekt?", opts:["Mit einem gegebenen Mitteleinsatz ein möglichst gutes Ergebnis erzielen.","Ein festgelegtes Ziel mit möglichst geringem Mitteleinsatz erreichen.","Immer so viel wie möglich Geld ausgeben.","Risiken um jeden Preis vermeiden."], ans:1, expl:"Beim Minimalprinzip ist das Ziel fest vorgegeben — die Mittel sollen minimiert werden."},
+    {q:"Was versteht man unter Opportunitätskosten?", opts:["Die tatsächlich gezahlten Kosten für ein Produkt.","Den entgangenen Nutzen der nicht gewählten Alternative.","Die Kosten, die eine Firma für Werbung ausgibt.","Die Steuern auf eine Kaufentscheidung."], ans:1, expl:"Opportunitätskosten sind der Nutzen, auf den man verzichtet, weil man sich für eine andere Option entschieden hat."},
+    {q:"Eine Firma will mit den vorhandenen Maschinen den höchstmöglichen Ausstoß erzielen. Welches Prinzip ist das?", opts:["Minimalprinzip","Maximalprinzip","Sparsamkeitsprinzip ohne Zielbezug","Kein ökonomisches Prinzip"], ans:1, expl:"Die Maschinen (Mittel) sind fest gegeben, das Ergebnis (Ausstoß) soll maximiert werden: Maximalprinzip."},
+    {q:"Warum müssen Menschen überhaupt wirtschaften?", opts:["Weil Geld grundsätzlich knapp ist.", "Weil unsere Bedürfnisse unbegrenzt, die verfügbaren Mittel aber begrenzt sind.", "Weil der Staat es vorschreibt.", "Weil Unternehmen sonst keinen Gewinn machen."], ans:1, expl:"Das Spannungsverhältnis zwischen unbegrenzten Bedürfnissen und begrenzten Mitteln (Knappheit) zwingt uns zum Wirtschaften."}
+  ];
+
+  var GLOSSAR = [
+    {t:"Bedürfnis", d:"Der Wunsch, einen als Mangel empfundenen Zustand zu beheben — von Grundbedürfnissen bis zu Luxuswünschen."},
+    {t:"Knappheit", d:"Das Spannungsverhältnis zwischen unbegrenzten Bedürfnissen und begrenzten Gütern/Mitteln."},
+    {t:"Ökonomisches Prinzip", d:"Der Grundsatz, knappe Mittel bestmöglich einzusetzen. Umfasst Minimal- und Maximalprinzip."},
+    {t:"Minimalprinzip", d:"Ein vorgegebenes Ziel mit möglichst geringem Mitteleinsatz erreichen (Sparsamkeit)."},
+    {t:"Maximalprinzip", d:"Mit einem gegebenen Mitteleinsatz ein möglichst gutes Ergebnis erzielen (Ergiebigkeit)."},
+    {t:"Opportunitätskosten", d:"Der entgangene Nutzen der Alternative, auf die man bei einer Entscheidung verzichtet (auch: Verzichtskosten)."},
+    {t:"Grundbedürfnis", d:"Lebensnotwendiges Bedürfnis, z. B. Nahrung, Kleidung, Wohnen."},
+    {t:"Kulturbedürfnis", d:"Nicht lebensnotwendig, aber wichtig für persönliche Entwicklung und soziale Teilhabe, z. B. Bildung."},
+    {t:"Luxusbedürfnis", d:"Nicht notwendiges Bedürfnis zur Erfüllung besonderer Wünsche, z. B. Markenprodukte."}
+  ];
+
+  // ============ STATE ============
+  var S = {
+    priceRevealed: false,
+    einstiegQuiz: null,
+    needAns: {},
+    prinzipQuiz: {},
+    sachAns: {},
+    iceSel: {},
+    iceChecked: false,
+    util: {L:[0,0,0], R:[0,0,0]},
+    note: "",
+    lueckeVal: [null,null,null,null,null,null,null,null,null],
+    luecheChecked: false,
+    quizIdx: 0,
+    quizAns: {}
+  };
+  try{
+    var sn = localStorage.getItem("oep_note");
+    if(sn) S.note = sn;
+  }catch(e){}
+
+  // ============ ICONS ============
+  var ICO = {
+    min: '<path d="M12 19V5"/><path d="M6 13l6 6 6-6"/>',
+    max: '<path d="M12 5v14"/><path d="M6 11l6-6 6 6"/>',
+    coin: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 4"/><path d="M12 16h.01"/>'
+  };
+  function iconSm(name){ return '<div class="icon-sm"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ICO[name]+'</svg></div>'; }
+
+  var HERO_SVG = '<svg viewBox="0 0 200 140" width="100%" height="100%" fill="none">'
+    + '<ellipse cx="100" cy="124" rx="70" ry="9" style="fill:var(--surface-alt)"/>'
+    + '<path d="M60 108 L60 60 L100 40 L140 60 L140 108 Z" style="fill:var(--surface-alt);stroke:var(--border-strong)" stroke-width="2"/>'
+    + '<circle cx="100" cy="68" r="5" style="fill:var(--ink-mute)"/>'
+    + '<path d="M70 68 L130 68" style="stroke:var(--ink-mute)" stroke-width="3" stroke-linecap="round"/>'
+    + '<path d="M70 68 L58 92 h24 Z" style="fill:var(--accent-soft);stroke:var(--accent)" stroke-width="2"/>'
+    + '<path d="M130 68 L118 86 h24 Z" style="fill:var(--contra-soft);stroke:var(--contra)" stroke-width="2"/>'
+    + '<text x="70" y="104" text-anchor="middle" style="font-family:Inter,sans-serif;font-weight:800;font-size:11px;fill:var(--accent-strong)">MIN</text>'
+    + '<text x="130" y="100" text-anchor="middle" style="font-family:Inter,sans-serif;font-weight:800;font-size:11px;fill:var(--contra)">MAX</text>'
+  + '</svg>';
+
+  // ============ NAV ============
+  function renderNav(){
+    document.getElementById("navrow").innerHTML = NAV.map(function(n){
+      return '<a class="navlink" href="#'+n.id+'" data-nid="'+n.id+'">'+esc(n.label)+'</a>';
+    }).join("");
+  }
+  function bindScrollspy(){
+    var links = Array.prototype.slice.call(document.querySelectorAll(".navlink"));
+    var sections = NAV.map(function(n){ return document.getElementById(n.id); }).filter(Boolean);
+    function onScroll(){
+      var pos = window.scrollY + 90;
+      var current = sections[0] && sections[0].id;
+      sections.forEach(function(s){ if(s.offsetTop <= pos) current = s.id; });
+      links.forEach(function(l){ l.classList.toggle("active", l.getAttribute("data-nid")===current); });
+    }
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+  }
+
+  function infoPanelHtml(){
+    return '<div class="info-panel" id="infoPanel" hidden>'
+      + '<h3>Kurzinfo für die Durchführung</h3>'
+      + '<ul>'
+        + '<li>Selbstlernkurs zum ökonomischen Prinzip (Minimal-/Maximalprinzip, Knappheit, Opportunitätskosten) für die 9. Jahrgangsstufe, ca. 35–45 Minuten.</li>'
+        + '<li>Geeignet zur eigenständigen Erarbeitung, als Hausaufgabe oder zur Wiederholung vor einer Schulaufgabe.</li>'
+        + '<li>Alle Übungen geben direktes Feedback. Subjektive Aufgaben (Abschnitt „Verzichtskosten“) werden bewusst nicht bewertet.</li>'
+        + '<li>Die Notiz in Abschnitt 5 wird nur lokal im Browser der/des Lernenden gespeichert.</li>'
+        + '<li>Begleitend: Arbeitsblatt und Lösung im docx-Format.</li>'
+      + '</ul>'
+    + '</div>';
+  }
+  function bindInfoBtn(){
+    document.getElementById("infoBtn").addEventListener("click", function(){
+      var p = document.getElementById("infoPanel");
+      p.hidden = !p.hidden;
+    });
+  }
+
+  // ============ HERO ============
+  function heroHtml(){
+    return '<div class="hero">'
+      + '<div class="kicker">Wirtschaft und Recht · 9. Jahrgangsstufe</div>'
+      + '<h1>Das Ökonomische Prinzip</h1>'
+      + '<div class="hero-art">'+HERO_SVG+'</div>'
+      + '<p class="hook">Unsere Wünsche sind praktisch grenzenlos. Unser Geld, unsere Zeit und die Güter dieser Welt sind es nicht. Wie entscheidet man klug, wenn man nicht alles haben kann?</p>'
+      + '<a class="btn primary big" href="#einstieg" style="max-width:260px;margin:14px auto 0;display:block;">Los geht&rsquo;s ↓</a>'
+    + '</div>';
+  }
+
+  // ============ SECTION 1: EINSTIEG ============
+  function einstiegHtml(){
+    return '<section id="einstieg">'
+      + '<div class="section-head"><div class="num">Abschnitt 1</div><h2>Einkaufen mit Köpfchen</h2></div>'
+      + '<div class="card">'
+        + '<div class="scenario-box"><p>Frau Berger steht im Supermarkt vor dem Waschmittelregal. Vier Packungen, vier Preise, vier verschiedene Füllmengen. Ihre Wünsche sind klar: strahlend saubere Wäsche, ein angenehmer Duft, am liebsten auch noch nachhaltig verpackt — und natürlich möglichst günstig. Nur: Ihr Portemonnaie setzt eine klare Grenze.</p></div>'
+        + '<p>Nehmen wir an, Frau Berger braucht für den Monat mindestens <b>6 kg</b> Waschmittel und möchte dafür so <b>wenig Geld wie möglich</b> ausgeben. Vergleiche die Angebote:</p>'
+        + '<table class="price-table"><thead><tr><th>Produkt</th><th>Menge</th><th>Preis</th><th>Preis/kg</th></tr></thead><tbody id="priceBody"></tbody></table>'
+        + '<div id="priceActionHolder"></div>'
+        + '<div id="einstiegQuizHolder"></div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function renderEinstieg(){
+    var body = document.getElementById("priceBody");
+    if(!body) return;
+    var best = null;
+    PRICES.forEach(function(p,i){
+      var perKg = p.preis / p.kg;
+      if(best===null || perKg < PRICES[best].preis/PRICES[best].kg) best = i;
+    });
+    body.innerHTML = PRICES.map(function(p,i){
+      var perKg = p.preis / p.kg;
+      var show = S.priceRevealed;
+      return '<tr class="'+(show && i===best ? "best" : "")+'">'
+        + '<td>'+esc(p.name)+'<br><span style="color:var(--ink-mute);font-size:11.5px;">'+esc(p.desc)+'</span></td>'
+        + '<td>'+p.kg.toLocaleString("de-DE")+' kg</td>'
+        + '<td>'+p.preis.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+' €</td>'
+        + '<td class="perkg">'+(show ? perKg.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+' €' : "—")+'</td>'
+      + '</tr>';
+    }).join("");
+
+    var actionHolder = document.getElementById("priceActionHolder");
+    if(!S.priceRevealed){
+      actionHolder.innerHTML = '<button class="reveal-btn" id="revealPriceBtn">Preise pro Kilogramm berechnen</button>';
+      document.getElementById("revealPriceBtn").addEventListener("click", function(){ S.priceRevealed = true; renderEinstieg(); });
+    } else {
+      actionHolder.innerHTML = '';
+    }
+
+    var qh = document.getElementById("einstiegQuizHolder");
+    if(!S.priceRevealed){ qh.innerHTML=""; return; }
+    if(S.einstiegQuiz === null){
+      qh.innerHTML = '<p style="font-weight:700;color:var(--ink);margin-top:14px;">Welches Produkt sollte Frau Berger wählen?</p>'
+        + PRICES.map(function(p,i){ return '<button class="quiz-opt" data-i="'+i+'">'+esc(p.name)+' ('+esc(p.desc)+')</button>'; }).join("");
+      qh.querySelectorAll(".quiz-opt").forEach(function(btn){
+        btn.addEventListener("click", function(){ S.einstiegQuiz = +btn.getAttribute("data-i"); renderEinstieg(); });
+      });
+    } else {
+      qh.innerHTML = PRICES.map(function(p,i){
+        var cls = i===best ? "correct" : (i===S.einstiegQuiz && i!==best ? "wrong" : "");
+        return '<div class="quiz-opt '+cls+'" style="cursor:default;'+(cls?"":"opacity:.55;")+'">'+esc(p.name)+' ('+esc(p.desc)+')</div>';
+      }).join("")
+      + '<div class="feedback-box good">Richtig wäre <b>'+esc(PRICES[best].name)+'</b> — der mit Abstand günstigste Preis pro Kilogramm. Das ist der Kern des <b>Minimalprinzips</b>: ein festgelegtes Ziel (6 kg Waschmittel) mit dem geringstmöglichen Mitteleinsatz (Geld) erreichen.</div>'
+      + '<p style="margin-top:14px;">Genau solche Abwägungen treffen wir ständig — bewusst oder unbewusst. Ökonominnen und Ökonomen nennen das Prinzip dahinter das <b>ökonomische Prinzip</b>. Bevor wir es genauer betrachten, schauen wir uns an, warum wir überhaupt ständig solche Entscheidungen treffen müssen.</p>';
+    }
+  }
+
+  // ============ SECTION 2: KNAPPHEIT ============
+  function knappheitHtml(){
+    return '<section id="knappheit">'
+      + '<div class="section-head"><div class="num">Abschnitt 2</div><h2>Das Grundproblem: Knappheit</h2></div>'
+      + '<div class="card">'
+        + '<p>Menschen wünschen sich eigentlich immer mehr: mehr Zeit, mehr Geld, das neueste Smartphone, ein größeres Zimmer … Unsere <b>Bedürfnisse</b> sind praktisch unbegrenzt. Die Güter und Mittel, mit denen wir sie befriedigen können — Geld, Rohstoffe, Zeit, Energie —, sind es nicht.</p>'
+        + '<div class="tension">'
+          + '<div class="box a">unbegrenzte<br>Bedürfnisse</div>'
+          + '<div class="arrow">⇄</div>'
+          + '<div class="box b">begrenzte<br>Mittel/Güter</div>'
+        + '</div>'
+        + '<div class="tension-note">Spannungsverhältnis → Wir müssen wirtschaften!</div>'
+        + '<p>Dieses Spannungsverhältnis nennt man <b>Knappheit</b>. Sie zwingt uns dazu, zu <b>wirtschaften</b>: bewusst zu entscheiden, wie wir unsere begrenzten Mittel am besten einsetzen.</p>'
+      + '</div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Nicht jedes Bedürfnis ist gleich wichtig</h3>'
+        + '<p style="font-size:13.5px;">Man unterscheidet <b>Grundbedürfnisse</b> (lebensnotwendig), <b>Kulturbedürfnisse</b> (wichtig für Entwicklung und soziale Teilhabe) und <b>Luxusbedürfnisse</b> (nicht notwendig, aber wünschenswert). Ordne zu:</p>'
+        + '<div id="needsHolder"></div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function renderNeeds(){
+    var holder = document.getElementById("needsHolder");
+    if(!holder) return;
+    var html = NEEDS.map(function(n,i){
+      var chosen = S.needAns[i];
+      var btns = NEED_CATS.map(function(c,ci){
+        var cls = "";
+        if(chosen!==undefined){
+          if(ci===n.cat) cls = "correct";
+          else if(ci===chosen) cls = "wrong";
+        }
+        return '<button class="need-btn '+cls+'" data-ni="'+i+'" data-ci="'+ci+'" '+(chosen!==undefined?"disabled":"")+'>'+esc(c)+'</button>';
+      }).join("");
+      return '<div class="need-card"><div class="need-txt">'+esc(n.txt)+'</div><div class="need-btns">'+btns+'</div></div>';
+    }).join("");
+    var answered = Object.keys(S.needAns).length;
+    if(answered === NEEDS.length){
+      var correct = NEEDS.filter(function(n,i){ return S.needAns[i]===n.cat; }).length;
+      html += '<div class="feedback-box good" style="margin-top:4px;">'+correct+' von '+NEEDS.length+' richtig zugeordnet. '+(correct===NEEDS.length?"Stark — weiter geht's mit dem eigentlichen Prinzip!":"Schau dir die farbig markierten Lösungen an und geh weiter zum nächsten Abschnitt.")+'</div>';
+    }
+    holder.innerHTML = html;
+    holder.querySelectorAll(".need-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var ni = +btn.getAttribute("data-ni"), ci = +btn.getAttribute("data-ci");
+        S.needAns[ni] = ci;
+        renderNeeds();
+      });
+    });
+  }
+
+  // ============ SECTION 3: PRINZIP ============
+  function prinzipHtml(){
+    return '<section id="prinzip">'
+      + '<div class="section-head"><div class="num">Abschnitt 3</div><h2>Das Ökonomische Prinzip</h2></div>'
+      + '<div class="card">'
+        + '<p>Wenn wir unsere knappen Mittel möglichst gut einsetzen, handeln wir nach dem <b>ökonomischen Prinzip</b>. Es gibt zwei Varianten — und sie gelten <b>nie gleichzeitig</b>:</p>'
+        + '<div class="praemisse-grid">'
+          + '<div class="praemisse">'+iconSm("min")+'<div class="txt"><b>Minimalprinzip</b><p>Ein vorgegebenes <u>Ziel</u> mit möglichst <u>wenig</u> Mitteleinsatz erreichen. Beispiel: mit möglichst wenig Heizenergie eine angenehme Raumtemperatur erreichen.</p><span class="tag">Sparsamkeit</span></div></div>'
+          + '<div class="praemisse">'+iconSm("max")+'<div class="txt"><b>Maximalprinzip</b><p>Mit einem gegebenen <u>Mitteleinsatz</u> ein möglichst <u>gutes Ergebnis</u> erzielen. Beispiel: mit einem festen Taschengeld möglichst viel Eis kaufen.</p><span class="tag">Ergiebigkeit</span></div></div>'
+        + '</div>'
+        + '<div class="model-note">⚠️ Wichtig: Entweder ist das <b>Ziel</b> fest und die Mittel variabel (Minimalprinzip) — oder die <b>Mittel</b> sind fest und das Ergebnis variabel (Maximalprinzip). Nie beides zugleich!</div>'
+      + '</div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Das Prinzip gilt für alle Wirtschaftseinheiten</h3>'
+        + '<table class="price-table"><thead><tr><th>Wirtschaftseinheit</th><th>Minimalprinzip</th><th>Maximalprinzip</th></tr></thead><tbody>'
+          + '<tr><td><b>Haushalte</b></td><td>Aufwandsminimierung</td><td>Nutzenmaximierung</td></tr>'
+          + '<tr><td><b>Unternehmen</b></td><td>Kostenminimierung</td><td>Gewinnmaximierung</td></tr>'
+        + '</tbody></table>'
+      + '</div>'
+    + '</section>';
+  }
+
+  // ============ SECTION 4: PRAXIS ============
+  function praxisHtml(){
+    return '<section id="praxis">'
+      + '<div class="section-head"><div class="num">Abschnitt 4</div><h2>Das Prinzip in der Praxis</h2></div>'
+      + '<div class="card">'
+        + '<p>Ordne die folgenden Alltagssituationen dem richtigen Prinzip zu.</p>'
+        + '<div id="sachScoreHolder"></div>'
+        + '<div id="sachHolder"></div>'
+      + '</div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Das Eis-Dilemma</h3>'
+        + '<div class="scenario-box"><p>Du hast beim Nachbarn den Rasen gemäht und dir 10 € verdient. Jetzt willst du dich mit deiner besten Freundin / deinem besten Freund ein Eis gönnen — ihr wollt beide <b>möglichst viel Eis für das Geld</b> bekommen (Maximalprinzip).</p></div>'
+        + '<div id="iceHolder"></div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function renderSach(){
+    var scoreHolder = document.getElementById("sachScoreHolder");
+    var holder = document.getElementById("sachHolder");
+    if(!holder) return;
+    var answered = Object.keys(S.sachAns).length;
+    var correct = SACHVERHALTE.filter(function(s,i){ return S.sachAns[i]===s.ans; }).length;
+    scoreHolder.innerHTML = '<span class="score-pill">'+correct+' / '+SACHVERHALTE.length+' richtig · '+answered+' von '+SACHVERHALTE.length+' bearbeitet</span>';
+
+    holder.innerHTML = SACHVERHALTE.map(function(s,i){
+      var chosen = S.sachAns[i];
+      var btnMin = "sach-btn" + (chosen!==undefined ? (s.ans===0?" correct":(chosen===0?" wrong":"")) : "");
+      var btnMax = "sach-btn" + (chosen!==undefined ? (s.ans===1?" correct":(chosen===1?" wrong":"")) : "");
+      return '<div class="card sach-card">'
+        + '<div class="sach-txt">'+(i+1)+'. '+esc(s.txt)+'</div>'
+        + '<div class="sach-btns">'
+          + '<button class="'+btnMin+'" data-si="'+i+'" data-sv="0" '+(chosen!==undefined?"disabled":"")+'>Minimalprinzip</button>'
+          + '<button class="'+btnMax+'" data-si="'+i+'" data-sv="1" '+(chosen!==undefined?"disabled":"")+'>Maximalprinzip</button>'
+        + '</div>'
+        + (chosen!==undefined ? '<div class="sach-expl">'+esc(s.expl)+'</div>' : '')
+      + '</div>';
+    }).join("");
+
+    holder.querySelectorAll(".sach-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var si = +btn.getAttribute("data-si"), sv = +btn.getAttribute("data-sv");
+        S.sachAns[si] = sv;
+        renderSach();
+      });
+    });
+  }
+
+  function renderIce(){
+    var holder = document.getElementById("iceHolder");
+    if(!holder) return;
+    var html = ICE.map(function(it){
+      var sel = !!S.iceSel[it.key];
+      var cls = "ice-card" + (sel?" sel":"") + (S.iceChecked && it.good ? " correct" : "");
+      return '<button class="'+cls+'" data-k="'+it.key+'" '+(S.iceChecked?"disabled":"")+'><b>'+esc(it.label)+'</b>'+esc(it.txt)+'</button>';
+    }).join("");
+    if(!S.iceChecked){
+      html += '<button class="btn primary big" id="iceCheckBtn" style="margin-top:6px;">Auswahl prüfen</button>';
+    } else {
+      html += '<div class="feedback-box good">Richtig sind <b>Variante B</b> und <b>Variante D</b> — bei beiden bekommt ihr für euer Geld die größte Menge Eis. Bei der Eisdiele (A) zahlt ihr auch für Service und Atmosphäre, bei Variante C teilt ihr euch das Eis mit einer Person mehr. Trotzdem können gute Gründe für A oder C sprechen — zum Beispiel, wenn ihr in der Eisdiele Freunde trefft oder eurer kleinen Schwester eine Freude machen wollt. Nicht jede Entscheidung folgt ausschließlich dem Maximalprinzip!</div>';
+    }
+    holder.innerHTML = html;
+    holder.querySelectorAll(".ice-card").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var k = btn.getAttribute("data-k");
+        S.iceSel[k] = !S.iceSel[k];
+        renderIce();
+      });
+    });
+    var cb = document.getElementById("iceCheckBtn");
+    if(cb) cb.addEventListener("click", function(){ S.iceChecked = true; renderIce(); });
+  }
+
+  // ============ SECTION 5: KOSTEN ============
+  function kostenHtml(){
+    return '<section id="kosten">'
+      + '<div class="section-head"><div class="num">Abschnitt 5</div><h2>Jede Entscheidung „kostet“</h2></div>'
+      + '<div class="card">'
+        + '<p>Entscheidest du dich für eine Option, verzichtest du automatisch auf die Vorteile der anderen. Diesen entgangenen Nutzen nennt man <b>Opportunitätskosten</b> (auch: Alternativ- oder Verzichtskosten). Nimmst du zum Beispiel die Einladung zur Geburtstagsparty an, verzichtest du auf den Kinoabend mit deinem Schwarm — und umgekehrt.</p>'
+      + '</div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Miras Dilemma</h3>'
+        + '<div class="scenario-box"><p>Mira hat morgen eine Mathearbeit und müsste eigentlich lernen. Doch die Sonne scheint, und ihre beste Freundin lädt sie spontan ins Schwimmbad ein. Bewerte für dich selbst jede Konsequenz von –3 (sehr schlimm) bis +3 (sehr gut) und vergleiche die Summen.</p></div>'
+        + '<div class="util-cols" id="utilHolder"></div>'
+        + '<div class="util-sum" id="utilSumHolder"></div>'
+      + '</div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Zum Nachdenken</h3>'
+        + '<p style="font-size:13.5px;">Übermorgen schreibst du deine letzte Mathearbeit des Schuljahres. Dein Notendurchschnitt liegt bei 2,5 — egal wie du abschneidest, im Zeugnis wird es nicht besser als eine 2 und nicht schlechter als eine 3. Beschreibe: Wie würdest du nach dem <b>Minimalprinzip</b> und wie nach dem <b>Maximalprinzip</b> an deine Lernzeit herangehen?</p>'
+        + '<textarea class="noteArea" id="noteArea" placeholder="Deine Gedanken (nur auf diesem Gerät gespeichert) …"></textarea>'
+        + '<div class="save-hint" id="saveHint">&nbsp;</div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function renderUtil(){
+    var holder = document.getElementById("utilHolder");
+    if(!holder) return;
+    function col(side, data){
+      var rows = data.items.map(function(txt, i){
+        var v = S.util[side][i];
+        return '<div class="util-row"><span class="lbl">'+esc(txt)+'</span>'
+          + '<input type="range" min="-3" max="3" step="1" value="'+v+'" data-side="'+side+'" data-i="'+i+'">'
+          + '<div class="val">'+(v>0?"+":"")+v+'</div></div>';
+      }).join("");
+      return '<div class="util-col"><h4>'+esc(data.title)+'</h4>'+rows+'</div>';
+    }
+    holder.innerHTML = col("L", UTIL_LEFT) + col("R", UTIL_RIGHT);
+    holder.querySelectorAll("input[type=range]").forEach(function(inp){
+      inp.addEventListener("input", function(){
+        var side = inp.getAttribute("data-side"), i = +inp.getAttribute("data-i");
+        S.util[side][i] = +inp.value;
+        renderUtil();
+      });
+    });
+    var sumL = S.util.L.reduce(function(a,b){return a+b;},0);
+    var sumR = S.util.R.reduce(function(a,b){return a+b;},0);
+    var msg;
+    if(sumL>sumR) msg = "Bei dir überwiegt gerade <b>Lernen</b>.";
+    else if(sumR>sumL) msg = "Bei dir überwiegt gerade <b>Schwimmbad</b>.";
+    else msg = "Bei dir halten sich beide Optionen genau die Waage — eine knifflige Entscheidung!";
+    document.getElementById("utilSumHolder").innerHTML = '<span class="n">'+sumL+'</span> &nbsp;vs.&nbsp; <span class="n">'+sumR+'</span><p style="margin-top:8px;">'+msg+' Es gibt hier kein objektiv richtig oder falsch — jede Entscheidung hat ihre eigenen Opportunitätskosten.</p>';
+  }
+
+  function bindNote(){
+    var na = document.getElementById("noteArea");
+    if(!na) return;
+    na.value = S.note;
+    na.addEventListener("input", function(){
+      S.note = na.value;
+      try{ localStorage.setItem("oep_note", S.note); }catch(e){}
+      var hint = document.getElementById("saveHint");
+      if(hint) hint.textContent = "Gespeichert ✓";
+    });
+  }
+
+  // ============ SECTION 6: TEST ============
+  function testHtml(){
+    return '<section id="test">'
+      + '<div class="section-head"><div class="num">Abschnitt 6</div><h2>Abschlusstest</h2></div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Lückentext</h3>'
+        + '<p style="font-size:13.5px;">Wähle für jede Lücke den passenden Begriff aus.</p>'
+        + '<div class="luecke-text" id="lueckeHolder"></div>'
+        + '<div id="lueckeActionHolder"></div>'
+      + '</div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Quiz</h3>'
+        + '<div id="quizHolder"></div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function renderLuecke(){
+    var holder = document.getElementById("lueckeHolder");
+    if(!holder) return;
+    var blankIdx = 0;
+    var html = LUECKE_PARTS.map(function(part){
+      if(typeof part === "number"){
+        var bi = part;
+        var val = S.lueckeVal[bi];
+        var cls = "";
+        if(S.luecheChecked){ cls = (val === LUECKE_ANS[bi]) ? "correct" : "wrong"; }
+        var opts = '<option value="">…wählen…</option>' + LUECKE_WORDS.map(function(w){
+          return '<option value="'+esc(w)+'" '+(val===w?"selected":"")+'>'+esc(w)+'</option>';
+        }).join("");
+        return '<select class="'+cls+'" data-bi="'+bi+'" '+(S.luecheChecked?"disabled":"")+'>'+opts+'</select>';
+      }
+      return esc(part);
+    }).join("");
+    holder.innerHTML = html;
+    holder.querySelectorAll("select").forEach(function(sel){
+      sel.addEventListener("change", function(){
+        S.lueckeVal[+sel.getAttribute("data-bi")] = sel.value || null;
+        renderLuecke();
+      });
+    });
+
+    var ah = document.getElementById("lueckeActionHolder");
+    var allFilled = S.lueckeVal.every(function(v){ return v; });
+    if(!S.luecheChecked){
+      ah.innerHTML = '<button class="btn primary" id="lueckeCheckBtn" '+(allFilled?"":"disabled")+' style="margin-top:12px;">Prüfen</button>';
+      var cb = document.getElementById("lueckeCheckBtn");
+      if(cb) cb.addEventListener("click", function(){ S.luecheChecked = true; renderLuecke(); });
+    } else {
+      var correct = S.lueckeVal.filter(function(v,i){ return v===LUECKE_ANS[i]; }).length;
+      ah.innerHTML = '<div class="feedback-box '+(correct===LUECKE_ANS.length?"good":"neutral")+'" style="margin-top:12px;">'+correct+' von '+LUECKE_ANS.length+' Lücken richtig ausgefüllt.</div>';
+    }
+  }
+
+  function renderQuiz(){
+    var holder = document.getElementById("quizHolder");
+    if(!holder) return;
+    var total = QUIZ.length;
+    var answeredCount = Object.keys(S.quizAns).length;
+
+    if(answeredCount === total){
+      var correct = QUIZ.filter(function(q,i){ return S.quizAns[i]===q.ans; }).length;
+      var msg;
+      if(correct===total) msg = "Bestens vorbereitet! Du beherrschst das ökonomische Prinzip sicher.";
+      else if(correct>=Math.ceil(total*0.6)) msg = "Gut gemacht — schau dir die Erklärungen der offenen Fragen noch einmal an.";
+      else msg = "Wiederhole am besten noch einmal die Abschnitte „Das Prinzip“ und „In der Praxis“.";
+      holder.innerHTML = '<div class="final-score"><div class="n">'+correct+' / '+total+'</div><p>'+msg+'</p></div>'
+        + QUIZ.map(function(q,i){
+            var chosen = S.quizAns[i];
+            var optsHtml = q.opts.map(function(opt,j){
+              var cls = j===q.ans ? "correct" : (j===chosen && j!==q.ans ? "wrong" : "");
+              return '<div class="quiz-opt '+cls+'" style="cursor:default;'+(cls?"":"opacity:.5;")+'">'+esc(opt)+'</div>';
+            }).join("");
+            return '<div style="margin-top:18px;"><p style="font-weight:700;color:var(--ink);">'+(i+1)+'. '+esc(q.q)+'</p>'+optsHtml+'<div class="feedback-box good">'+esc(q.expl)+'</div></div>';
+          }).join("");
+      return;
+    }
+
+    var i = S.quizIdx;
+    var q = QUIZ[i];
+    holder.innerHTML = '<p style="font-size:12.5px;color:var(--ink-mute);">Frage '+(i+1)+' von '+total+'</p>'
+      + '<p style="font-weight:700;color:var(--ink);">'+esc(q.q)+'</p>'
+      + q.opts.map(function(opt,j){ return '<button class="quiz-opt" data-j="'+j+'">'+esc(opt)+'</button>'; }).join("");
+    holder.querySelectorAll(".quiz-opt").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        S.quizAns[i] = +btn.getAttribute("data-j");
+        S.quizIdx = Math.min(i+1, total-1);
+        renderQuiz();
+      });
+    });
+  }
+
+  // ============ GLOSSARY ============
+  function glossaryHtml(){
+    var items = GLOSSAR.map(function(g){
+      return '<div class="glossary-item"><div class="term">'+esc(g.t)+'</div><div class="def">'+esc(g.d)+'</div></div>';
+    }).join("");
+    return '<section id="glossar">'
+      + '<div class="section-head"><div class="num">Nachschlagen</div><h2>Glossar</h2></div>'
+      + '<div class="card">'+items+'</div>'
+      + '<p style="text-align:center; font-size:11.5px; color:var(--ink-mute); margin-top:10px;">Erarbeitet auf Grundlage eigenen Unterrichtsmaterials zum ökonomischen Prinzip.</p>'
+    + '</section>';
+  }
+
+  // ============ RENDER ALL ============
+  function renderAll(){
+    stage.innerHTML = heroHtml() + einstiegHtml() + knappheitHtml() + prinzipHtml() + praxisHtml() + kostenHtml() + testHtml() + glossaryHtml();
+    renderEinstieg();
+    renderNeeds();
+    renderSach();
+    renderIce();
+    renderUtil();
+    bindNote();
+    renderLuecke();
+    renderQuiz();
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    renderNav();
+    document.getElementById("infoPanelHolder").innerHTML = infoPanelHtml();
+    bindInfoBtn();
+    renderAll();
+    bindScrollspy();
+  });
+})();
+</script>
+</body>
+</html>
